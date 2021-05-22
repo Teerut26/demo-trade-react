@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.ex4 {
+  overflow: auto;
+  height: calc(100vh - 94px);
+}
+.bg-dark-new {
+  background-color: "#1A1E1E" !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  opacity: 0.5;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+a {
+  font-style: normal;
+}
+
+/* .chang{
+  background-image: linear-gradient(
+    90deg
+    , rgb(24 172 247 / 37%) 0%, rgba(255, 255, 255, 0) 100%);
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+} */
+
+
+/* @-webkit-keyframes fadeinout {
+0%,100% { opacity: 0; }
+50% { opacity: 1; }
+} */
+
+@keyframes fadeinout {
+0%,100% { opacity: 0; }
+50% { opacity: 1; }
+}
+
+.chang {
+  background-image: linear-gradient(
+    90deg,
+    rgb(24 172 247 / 37%) 0%,
+    rgba(255, 255, 255, 0) 100%
+    
+  );
+  /* -webkit-animation: fadeinout 1s linear forwards; */
+  /* animation: fadeinout 1s linear forwards; */
+}
+
+
+.text-green {
+  color: #02d667 !important;
+}
+.text-red{
+  color: #f74b6c !important;
+}
+.text-tiker{
+  background-color: #02d66780;
+  animation: tiker 0.1s linear forwards;
+}
+
+@keyframes tiker {
+  0% { background-color: rgb(2 214 103 / 0%); }
+  100% { background-color: rgb(2 214 103 / 50%); }
+  }
+
+  .chart{
+    height: calc(100vh - 244px)
+  }
