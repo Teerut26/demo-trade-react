@@ -6,6 +6,9 @@ import { useParams } from "react-router";
 import TradingViewWidget, { Themes } from "react-tradingview-widget";
 import BidsAsk from "../Components/BidsAsk";
 import PriceHeader from "../Components/PriceHeader";
+import SymbolAll from "../Components/SymbolAll";
+
+
 
 const Chart = (props) => (
   <TradingViewWidget
@@ -24,13 +27,18 @@ function Trade(props) {
   let { id } = useParams();
   const [data, setdata] = useState(null);
   const [show, setShow] = useState(false);
+  const [value, setValue] = useState(0);
+
+  const [idCrypto, setIdCrypto] = useState(null)
+
+  // const useForceUpdate = () => {
+  //   ;
+  // }
 
   useEffect(() => {
     props.data.map((item) => {
       if (item.symbol === id) {
         setdata(item);
-
-        // console.log("🚀 ~ file: Trade.js ~ line 75 ~ props.data.map ~ item", item)
       }
     });
   }, [props.data]);
@@ -41,8 +49,17 @@ function Trade(props) {
     }
   }, [data]);
 
+  useEffect(() => {
+    setValue(value => value + 1)
+    props.data.map((item) => {
+      if (item.symbol === id) {
+        setdata(item);
+      }
+    });
+  }, [id])
+
   return (
-    <div className="px-1  mt-1">
+    <div key={value} className="px-1  mt-1">
       {show ? (
         <div
           style={{
@@ -52,19 +69,17 @@ function Trade(props) {
           }}
           className="row "
         >
-          
-          <div style={{ paddingRight: 5, paddingLeft: 10 }} className="col-sm">
+          <div style={{ padding:0 }} className="col-sm mb-1">
             <div
               style={{ height: "calc(100vh - 68px)", overflow: "auto" }}
-              // style={{ height: "100%" }}
               className="bg-dark card"
             >
-              <div className="text-light card-body">
+              <div  className="text-light card-body">
                 <BidsAsk id_crypto={data.data.id} id={id} />
               </div>
             </div>
           </div>
-          <div className="col-sm-6">
+          <div style={{ padding:0 }} className="col-sm-6 px-1 mb-1">
             <div className="bg-dark card">
               <div className="text-light card-body p-1">
                 <PriceHeader id={id} obj={data.data} />
@@ -73,13 +88,15 @@ function Trade(props) {
                 </div>
               </div>
             </div>
-            {/* <div style={{ height: "100%" }} className="card bg-dark mt-1">
-            <div className=" card-body">afsd</div>
-          </div> */}
           </div>
-          <div className="col-sm">
-            <div className="bg-dark card">
-              <div className=" card-body">afsd</div>
+          <div style={{ padding:0 }} className="col-sm mb-1">
+            <div
+              style={{ height: "calc(100vh - 68px)", overflow: "auto" }}
+              className="bg-dark card"
+            >
+              <div className="text-light card-body">
+                <SymbolAll />
+              </div>
             </div>
           </div>
         </div>

@@ -21,6 +21,7 @@ const compare = (a, b) => {
 const Loading = () => {
   return (
     <div>
+      <div style={{width:60}} className="ssc-line mb-3" ></div>
       {[...Array(50)].map((x, i) => (
         <div className="row mb-3">
           <div className="col">
