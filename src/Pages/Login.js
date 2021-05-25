@@ -4,17 +4,18 @@ import { connect } from "react-redux";
 
 import firebase from "@firebase/app";
 import "firebase/auth";
+import "@firebase/database";
 
 var firebaseConfig = {
-  apiKey: "AIzaSyAMluo4i9xBdsrW2BRfIMGKMgYeWpl1kZc",
-  authDomain: "fir-trade-eff3a.firebaseapp.com",
+  apiKey: "AIzaSyDUDpko95UsPYdEA02f0pUKwIf-oh-Qxhw",
+  authDomain: "funny-trade.firebaseapp.com",
   databaseURL:
-    "https://fir-trade-eff3a-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "fir-trade-eff3a",
-  storageBucket: "fir-trade-eff3a.appspot.com",
-  messagingSenderId: "187765407111",
-  appId: "1:187765407111:web:9de29b922f846e65ee6722",
-  measurementId: "G-RZW1VYM4NK",
+    "https://funny-trade-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "funny-trade",
+  storageBucket: "funny-trade.appspot.com",
+  messagingSenderId: "713373565015",
+  appId: "1:713373565015:web:4e1dc3ce22721092946312",
+  measurementId: "G-4329WB9475",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -40,16 +41,34 @@ function Login(props) {
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
         props.SetCurrentUser(response.user);
-        console.log(response);
-        // props.dispatch({
-        //   type:"SET_USER_DATA",
-        //   data:response.user
-        // })
-        setLoading(false);
+        firebase
+          .database()
+          .ref(`users/${response.user.uid}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log(true);
+            } else {
+              console.log(false);
+              firebase
+                .database()
+                .ref(`users/${response.user.uid}`)
+                .set({
+                  uid: response.user.uid,
+                  asset: {
+                    THB: {
+                      value: 50000000,
+                    },
+                  },
+                });
+            }
+          });
         history.push("/");
+        setLoading(false);
+        // history.push("/");
       })
       .catch((e) => {
-        setLoading(false)
+        setLoading(false);
         setshowAlert(true);
         setDataAlert(e.message);
         setTimeout(() => {
@@ -65,8 +84,28 @@ function Login(props) {
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
-        // console.log(res);
-        props.SetCurrentUser(res.user);
+        firebase
+          .database()
+          .ref(`users/${res.user.uid}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log(true);
+            } else {
+              console.log(false);
+              firebase
+                .database()
+                .ref(`users/${res.user.uid}`)
+                .set({
+                  uid: res.user.uid,
+                  asset: {
+                    THB: {
+                      value: 50000000,
+                    },
+                  },
+                });
+            }
+          });
         history.push("/");
       })
       .catch((e) => {
@@ -86,8 +125,30 @@ function Login(props) {
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
-        // console.log(res);
-        props.SetCurrentUser(res.user);
+        console.log(res);
+        firebase
+          .database()
+          .ref(`users/${res.user.uid}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log(true);
+            } else {
+              console.log(false);
+              firebase
+                .database()
+                .ref(`users/${res.user.uid}`)
+                .set({
+                  uid: res.user.uid,
+                  asset: {
+                    THB: {
+                      value: 50000000,
+                    },
+                  },
+                });
+            }
+          });
+        // props.SetCurrentUser(res.user);
         history.push("/");
       })
       .catch((e) => {
@@ -107,8 +168,28 @@ function Login(props) {
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
-        // console.log(res);
-        props.SetCurrentUser(res.user);
+        firebase
+          .database()
+          .ref(`users/${res.user.uid}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log(true);
+            } else {
+              console.log(false);
+              firebase
+                .database()
+                .ref(`users/${res.user.uid}`)
+                .set({
+                  uid: res.user.uid,
+                  asset: {
+                    THB: {
+                      value: 50000000,
+                    },
+                  },
+                });
+            }
+          });
         history.push("/");
       })
       .catch((e) => {
@@ -122,7 +203,7 @@ function Login(props) {
   };
 
   return (
-    <div style={{paddingTop:50}} className="container-sm ">
+    <div style={{ paddingTop: 50 }} className="container-sm ">
       <div style={{ height: "calc(100vh - 118px)" }} className="card">
         <div className="card-body bg-dark text-light text-center">
           <h5 className="card-title">เข้าสู่ระบบ</h5>
@@ -171,7 +252,8 @@ function Login(props) {
                 className="btn"
               >
                 <i className="fab fa-google" /> Login With Google
-              </div><br />
+              </div>
+              <br />
 
               <div
                 style={{ backgroundColor: "#466ca9", color: "white" }}
@@ -179,7 +261,8 @@ function Login(props) {
                 onClick={() => signFacebook()}
               >
                 <i class="fab fa-facebook-f"></i> Login With Facebook
-              </div><br />
+              </div>
+              <br />
 
               <div
                 style={{
@@ -190,7 +273,8 @@ function Login(props) {
                 onClick={() => signGitHub()}
               >
                 <i class="fab fa-github"></i> Login With Github
-              </div><br />
+              </div>
+              <br />
 
               {showAlert ? (
                 <div className="alert alert-danger mt-3" role="alert">

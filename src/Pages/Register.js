@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import auth from "../firebase";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+// import firebaseDB from "../firebaseDB";
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -12,15 +13,31 @@ function Login(props) {
 
   const [loading, setLoading] = useState(false);
 
+  const [showAlert, setshowAlert] = useState(false);
+  const [DataAlert, setDataAlert] = useState("");
+
   const history = useHistory();
 
   const onSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
-    if (password == password2){
-      auth.auth().createUserWithEmailAndPassword(email,password)
+    if (password == password2) {
+      auth
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((res) => {
+          setLoading(false);
+          history.push("/");
+        })
+        .catch((e) => {
+          setshowAlert(true);
+          setDataAlert(e.message);
+          setTimeout(() => {
+            setLoading(false);
+            setshowAlert(false);
+          }, 5000);
+        });
     }
-    
   };
 
   return (
@@ -63,7 +80,11 @@ function Login(props) {
               className="form-control mb-3"
             />
             <div>
-              <button style={{marginRight:3}} type="submit" className=" btn btn-primary ">
+              <button
+                style={{ marginRight: 3 }}
+                type="submit"
+                className=" btn btn-primary "
+              >
                 {loading ? (
                   <i class="fas fa-circle-notch fa-spin"></i>
                 ) : (
@@ -72,10 +93,17 @@ function Login(props) {
               </button>
             </div>
           </form>
+          {showAlert ? (
+            <div className="alert alert-danger mt-3" role="alert">
+              {DataAlert}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default connect()(Login)
+export default connect()(Login);

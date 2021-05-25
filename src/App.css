@@ -66,11 +66,79 @@ a {
   animation: tiker 0.1s linear forwards;
 }
 
+.btn-green-new{
+  background-color: #02d667 !important;
+}
+
+.btn-red-new{
+  background-color: #f74b6c !important;
+}
+
 @keyframes tiker {
   0% { background-color: rgb(2 214 103 / 0%); }
   100% { background-color: rgb(2 214 103 / 50%); }
   }
 
   .chart{
-    height: calc(100vh - 244px)
+    height: calc(100vh - 278px)
   }
+
+
+  /*! CSS Used from: https://www.bitkub.com/static/css/bootstrap-grid.min.css */
+*,::after,::before{-webkit-box-sizing:inherit;box-sizing:inherit;}
+/*! CSS Used from: https://www.bitkub.com/static/css/bitkub.css */
+*:focus,input:focus{outline:none!important;border:none;}
+::placeholder{color:#ccc;opacity:1;}
+:-ms-input-placeholder{color:#ccc;}
+::-ms-input-placeholder{color:#ccc;}
+/*! CSS Used from: https://www.bitkub.com/static/bootstrap/css/bootstrap-custom.css */
+*,*::before,*::after{box-sizing:border-box;}
+input{margin:0;font-family:inherit;font-size:inherit;line-height:inherit;}
+input{overflow:visible;}
+/*! CSS Used from: Embedded */
+.market__input-wrapper{padding:0 35px;}
+.market__input-wrapper--newmarket{padding:0;position:relative;margin:10px 0;display:flex;align-items:center;justify-content:space-between;padding:0 .5vw;border:1px solid #ccc;border-radius:3px;}
+@media (max-width:991px){
+.market__input-wrapper--newmarket{padding:0 1.5vw;}
+}
+.market__input-wrapper--form{border:0;width:100%;margin:0;padding:.5vw .4vw;color:#333;position:relative;font-size:13px;background:transparent;text-align:right;flex:2;}
+.market__input-wrapper--form:focus{outline:0 none;}
+.market__input-wrapper--form::-moz-placeholder{color:#ccc;opacity:1;}
+.market__input-wrapper--form:-ms-input-placeholder{color:#ccc;opacity:1;}
+.market__input-wrapper--form::placeholder{color:#ccc;opacity:1;}
+.market__input-wrapper--form:-ms-input-placeholder{color:#ccc;}
+.market__input-wrapper--form::-ms-input-placeholder{color:#ccc;}
+@media (max-width:1024px){
+.market__input-wrapper--form{font-size:11px;padding-right:40px;}
+}
+@media (max-width:991px){
+.market__input-wrapper--form{padding:10px 2vw;}
+}
+.market__input-wrapper--dark{color:#e8e8e8;}
+.market__input-wrapper--dark::-moz-placeholder{color:#8096a0;opacity:1;}
+.market__input-wrapper--dark:-ms-input-placeholder{color:#8096a0;opacity:1;}
+.market__input-wrapper--dark::placeholder{color:#8096a0;opacity:1;}
+.market__paper input{transition:color .4s ease-in-out;}
+.market__unit{position:relative;font-size:13px;color:#b3b3b3;}
+@media (max-width:1024px){
+.market__unit{font-size:11px;}
+}
+.market__input-text{z-index:1;position:relative;display:inline-block;vertical-align:middle;text-transform:capitalize;font-size:13px;}
+@media (max-width:1024px){
+.market__input-text{font-size:11px;}
+}
+@media (max-width:991px){
+.market__input-text{font-size:2.5vw;}
+}
+@media (max-width:480px){
+.market__input-text{font-size:3.5vw;}
+}
+/*! CSS Used from: Embedded */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track-piece{background-color:rgb(26, 30, 30);}
+::-webkit-scrollbar-thumb{background-color:rgb(102, 102, 102);border:2px solid rgb(102, 102, 102);border-radius:10px;background-clip:content-box;}
+::-webkit-scrollbar-corner{background-color:rgb(26, 30, 30);}
+/*! CSS Used from: Embedded */
+input::-moz-focus-inner{border:0;padding:0;}
+
+

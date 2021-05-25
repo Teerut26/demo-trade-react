@@ -5,6 +5,7 @@ import SessionCheck from "./SessionCheck";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import ping from "web-pingjs";
+import firebaseDB from "../firebaseDB";
 
 let socket = new WebSocket("wss://wsdesktop.bitkub.com/websocket-market-api/subscribe/ticker");
 
@@ -16,6 +17,10 @@ function Navbar(props) {
   const [Connect, setConnect] = useState(false);
   const history = useHistory();
   const Logout = () => {
+    dispatch({
+      type:"DELETE_ALL",
+      data:[]
+    })
     firebase.auth().signOut().then(history.push("/login"));
   };
 
@@ -50,6 +55,8 @@ function Navbar(props) {
     });
   };
 
+
+
   const getFist = async () => {
     await axios
       .get("https://api.bitkub.com/api/market/symbols")
@@ -74,6 +81,14 @@ function Navbar(props) {
       }
     });
   };
+
+const add_data = () => {
+  firebaseDB.database().ref('users/12').set({
+    username: "name",
+    email: "email",
+    profile_picture : "imageUrl"
+  });
+}
 
   const wssOnmessage = () => {
     socket.onmessage = (event) => {
@@ -171,6 +186,7 @@ function Navbar(props) {
             )} */}
             {UserShow ? (
               <button
+              // onClick={()=>add_data}
                 style={{ "margin-right": " 10px" }}
                 className="btn btn-outline-primary"
               >

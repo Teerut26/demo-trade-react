@@ -48,7 +48,7 @@ function SymbolAll(props) {
       <div classname="bg-dark card">
         <div classname=" card-body">
           <table className="table text-light table-borderless">
-            <thead>
+            <thead >
               <tr>
                 <th scope="col">
                   <input

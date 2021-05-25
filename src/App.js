@@ -46,8 +46,8 @@ function App() {
         <Route exact path="/register">
           <Register />
         </Route>
-        {/* <Route path="/trade">
-          <Redirect to="/trade/market/BTC" />
+        {/* <Route path="/trade/*">
+          <Redirect to="/trade/BTC" />
         </Route> */}
         <Route path="/trade/:id">
           <Navbar />

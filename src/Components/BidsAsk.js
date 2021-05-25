@@ -2,10 +2,17 @@ import React, { Component } from "react";
 
 const commaNumber = (number, n) => {
   try {
-    return number.toLocaleString();
+    var num = Number.parseFloat(number).toFixed(n);
+    return numberWithCommas(num);
   } catch {
     return <i class="fas fa-circle-notch fa-spin"></i>;
   }
+};
+
+const numberWithCommas = (x) => {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
 };
 
 const compare = (a, b) => {
@@ -21,7 +28,7 @@ const compare = (a, b) => {
 const Loading = () => {
   return (
     <div>
-      <div style={{width:60}} className="ssc-line mb-3" ></div>
+      <div style={{ width: 60 }} className="ssc-line mb-3"></div>
       {[...Array(50)].map((x, i) => (
         <div className="row mb-3">
           <div className="col">
@@ -55,30 +62,33 @@ export class BidsAsk extends Component {
 
   get_books = async () => {
     const res = await fetch(
-      `https://api.bitkub.com/api/market/books?sym=THB_${this.props.id}&lmt=10`
+      `https://api.bitkub.com/api/market/books?sym=THB_${this.props.id}&lmt=30`
     );
     const data = await res.json();
-    // var bids = [];
-    // for (let index = 0; index < data.result.bids.length; index++) {
-    //   var obj = [];
-    //   for (let index2 = 2; index2 < data.result.bids[index].length; index2++) {
-    //     obj.push(data.result.bids[index][index2]);
-    //   }
-    //   bids.push(obj);
-    // }
+    var bids = [];
+    var asks = [];
+    try{
+      for (let index = 0; index < data.result.bids.length; index++) {
+        bids.push([
+          data.result.bids[index][2],
+          data.result.bids[index][3],
+          data.result.bids[index][4],
+        ]);
+      }
+      for (let index = 0; index < data.result.asks.length; index++) {
+        asks.push([
+          data.result.bids[index][2],
+          data.result.bids[index][3],
+          data.result.bids[index][4],
+        ]);
+      }
+      this.setState({ bids: bids });
+      this.setState({ asks: asks });
+      this.setState({ wssOn: true });
+    }catch {
 
-    // var asks = [];
-    // for (let index = 0; index < data.result.asks.length; index++) {
-    //   var obj = [];
-    //   for (let index2 = 2; index2 < data.result.asks[index].length; index2++) {
-    //     obj.push(data.result.asks[index][index2]);
-    //   }
-    //   asks.push(obj);
-    // }
-
-    // this.setState({ bids: data.result.bids });
-    // this.setState({ asks: data.result.asks });
-    // this.setState({ get_api: false });
+    }
+    
   };
 
   wssOnmessage = () => {
@@ -89,7 +99,7 @@ export class BidsAsk extends Component {
       } else if (JSON.parse(event.data).event === "askschanged") {
         let data = JSON.parse(event.data);
         this.setState({ asks: data.data.sort() });
-        this.setState({ wssOn: true });
+        
       }
     };
   };
@@ -97,9 +107,6 @@ export class BidsAsk extends Component {
   componentDidMount() {
     this.get_books();
     this.wssOnmessage();
-    // setInterval(() => {
-    //   this.get_books()
-    // }, 10000);
   }
 
   componentWillUnmount() {
@@ -109,62 +116,66 @@ export class BidsAsk extends Component {
   render() {
     return (
       <div>
-        {this.state.wssOn != true ? <Loading /> :
-        <div>
-        <h6>Asks</h6>
-        <table className="table-borderless table text-light">
-          <thead>
-            <tr>
-              <th style={{ "font-size": "13px" }} scope="col">
-                Vol (THB)
-              </th>
-              <th style={{ "font-size": "13px" }} scope="col">
-                Vol ({this.props.id})
-              </th>
-              <th style={{ "font-size": "13px" }} scope="col">
-                Rate (THB)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.asks.map(
-              (item) =>
-                this.state.wssOn ? (
-                  <Trchange color="text-red" vol={item} />
-                ) : (
-                  <i class="fas fa-circle-notch fa-spin"></i>
-                )
-              // <Trchange vol={item} />
-            )}
-          </tbody>
-        </table>
-        <h6>Bids</h6>
-        <table className="table-borderless table text-light">
-          <thead>
-            <tr>
-              <th style={{ "font-size": "13px" }} scope="col">
-                Vol (THB)
-              </th>
-              <th style={{ "font-size": "13px" }} scope="col">
-                Vol ({this.props.id})
-              </th>
-              <th style={{ "font-size": "13px" }} scope="col">
-                Rate (THB)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.asks.map(
-              (item) =>
-                this.state.wssOn ? (
-                  <Trchange color="text-green" vol={item} />
-                ) : (
-                  <i class="fas fa-circle-notch fa-spin"></i>
-                )
-              // <Trchange vol={item} />
-            )}
-          </tbody>
-        </table></div>}
+        {this.state.wssOn != true ? (
+          <Loading />
+        ) : (
+          <div>
+            <h6>Asks</h6>
+            <table className="table-borderless table text-light">
+              <thead>
+                <tr>
+                  <th style={{ "font-size": "13px",color:"#8096a0" }} scope="col">
+                    Vol (THB)
+                  </th>
+                  <th style={{ "font-size": "13px",color:"#8096a0" }} scope="col">
+                    Vol ({this.props.id})
+                  </th>
+                  <th style={{ "font-size": "13px",color:"#8096a0" }} scope="col">
+                    Rate (THB)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.asks.map(
+                  (item) =>
+                    this.state.wssOn ? (
+                      <Trchange color="text-red" vol={item} />
+                    ) : (
+                      <i class="fas fa-circle-notch fa-spin"></i>
+                    )
+                  // <Trchange vol={item} />
+                )}
+              </tbody>
+            </table>
+            <h6>Bids</h6>
+            <table className="table-borderless table text-light">
+              <thead>
+                <tr>
+                  <th style={{ "font-size": "13px",color:"#8096a0" }} scope="col">
+                    Vol (THB)
+                  </th>
+                  <th style={{ "font-size": "13px",color:"#8096a0" }} scope="col">
+                    Vol ({this.props.id})
+                  </th>
+                  <th style={{ "font-size": "13px",color:"#8096a0" }} scope="col">
+                    Rate (THB)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.asks.map(
+                  (item) =>
+                    this.state.wssOn ? (
+                      <Trchange color="text-green" vol={item} />
+                    ) : (
+                      <i class="fas fa-circle-notch fa-spin"></i>
+                    )
+                  // <Trchange vol={item} />
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     );
   }
@@ -201,16 +212,16 @@ class Trchange extends Component {
     return (
       <tr className={this.state.show ? "text-tiker" : ""}>
         <th style={{ "font-size": "13px", padding: "3px" }}>
-          {this.props.vol[0]}
+          {commaNumber(this.props.vol[0],2)}
         </th>
         <th style={{ "font-size": "13px", padding: "3px" }}>
-          {this.props.vol[2]}
+          {commaNumber(this.props.vol[2],8)}
         </th>
         <th
           style={{ "font-size": "13px", padding: "3px" }}
           className={this.props.color}
         >
-          {this.props.vol[1]}
+          {commaNumber(this.props.vol[1],2)}
         </th>
       </tr>
     );
